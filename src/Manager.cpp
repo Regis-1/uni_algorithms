@@ -31,7 +31,7 @@ long int Manager<T>::sort_array(T* array, int i_low, int i_high){
 			return duration;
 		case intro:
 			t1 = std::chrono::high_resolution_clock::now();
-			sorter->intro_sort(array);
+			sorter->intro_sort(array, i_low, i_high);
 			t2 = std::chrono::high_resolution_clock::now();
 			duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
 			return duration;
@@ -58,6 +58,23 @@ void Manager<T>::print_array(T* array, int size){
 template<typename T>
 void Manager<T>::set_algorithm(int alg){
 	s_algorithm = alg;
+}
+
+template<typename T>
+int Manager<T>::get_eobs(int size, float percentage){
+	float float_index = (float)size * (percentage/100.0);
+	return std::round(float_index);
+}
+
+template<typename T>
+void Manager<T>::reverse_array(T* array, int size){
+	int i = 0;
+	int j = size-1;
+	while(i <= j){	
+		sorter->swap(&array[i], &array[j]);
+		i++;
+		j--;
+	}
 }
 
 template class Manager<int>;

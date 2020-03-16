@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <chrono>
+#include <math.h>
 
 #include "../include/Sorter.hh"
 
@@ -23,6 +24,8 @@ class Manager{
 		void random_array(T* array, int size);
 		void print_array(T* array, int size);
 		void set_algorithm(int alg);
+		int get_eobs(int size, float percentage);
+		void reverse_array(T* array, int size);
 };
 
 #endif
