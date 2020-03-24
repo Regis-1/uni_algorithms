@@ -20,7 +20,7 @@ class Manager{
 	public:
 		T* create_array(int size);
 		void delete_array(T* array);
-		long int sort_array(T* array, int i_low, int i_high);
+		long int sort_array(T* array, int i_low, int i_high, int a_size);
 		void random_array(T* array, int size);
 		void print_array(T* array, int size);
 		void set_algorithm(int alg);

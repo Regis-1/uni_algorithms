@@ -67,16 +67,16 @@ int main(int argc, char* argv[]){
 			if(my_sort_percent != 0){
 				if(my_sort_percent != -1){
 					int eobs = manager->get_eobs(my_size, my_sort_percent);
-					manager->sort_array(my_array, 0, eobs-1);
+					manager->sort_array(my_array, 0, eobs-1, my_size);
 				}
 				else{
-					manager->sort_array(my_array, 0, my_size-1);
+					manager->sort_array(my_array, 0, my_size-1, my_size);
 					manager->reverse_array(my_array, my_size);
 				}
 			}
 
 			//SORTING
-			long int duration = manager->sort_array(my_array, 0, my_size-1);
+			long int duration = manager->sort_array(my_array, 0, my_size-1, my_size);
 			if(will_print)
 				manager->print_array(my_array, my_size);
 			auto duration_ms = duration/1000.0;

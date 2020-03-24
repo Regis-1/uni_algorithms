@@ -2,17 +2,19 @@
 
 template<typename T>
 T Sorter<T>::partition(T* array, int i_low, int i_high){
-	int pivot = array[i_high];
-	int i = (i_low - 1);
-
-	for(int j = i_low; j <= i_high - 1; j++){
-		if(array[j] < pivot){
-			i++;
-			swap(&array[i], &array[j]);
-		}
+	int i, j;
+    if (i_high>=3)
+		median_of_three(array,i_low,i_high);
+	for (i=i_low, j=i_high-2; ; )
+	{
+		for ( ; array[i]<array[i_high-1]; ++i);
+		for ( ; j>=i_low && array[j]>array[i_high-1]; --j);
+		if (i<j)
+			swap(&array[i++], &array[j--]);
+		else break;
 	}
-	swap(&array[i+1], &array[i_high]);
-	return (i+1);
+	swap(&array[i], &array[i_high-1]);
+	return i;
 }
 
 template<typename T>
@@ -83,59 +85,43 @@ void Sorter<T>::sort_heap(T* array, int n){
 }
 
 template<typename T>
-void Sorter<T>::insertion_sort(T* array, T* begin , T* end){
-	int left = begin - array;
-	int right = end - array;
-	for(int i = left + 1; i <= right; i++){
-		int key = array[i];
-		int j = i-1;
-
-		while(j >= left && array[j] > key){
-			array[j+1] = array[j];
-			j=j-1;
-		}
-		array[j+1] = key;
+void Sorter<T>::insertion_sort(T* array, int n){
+	long i, j;
+	T temp;
+	for (i=1; i<n; ++i)
+	{
+		temp=array[i];
+		for (j=i; j>0 && temp<array[j-1]; --j)
+		array[j]=array[j-1];
+		array[j]=temp;
 	}
 }
 
-template<typename T>
-T* Sorter<T>::median_of_three(T* a, T* b, T* c){
-	if(*a < *b && *b < *c)
-		return b;
-	if(*a < *c && *c <= *b)
-		return c;
-	if(*b <= *a && *a < *c)
-		return a;
-	if(*b < *c && *c <= *a)
-		return c;
-	if(*c <= *a && *a < *b)
-		return a;
-	if(*c <= *b && *b <= *a)
-		return b;
-	return a;
+template <typename T>
+void Sorter<T>::median_of_three(T *array, int &L, int &R)
+{
+	if (array[++L-1]>array[--R])
+		swap(&array[L-1], &array[R]);
+	if (array[L-1]>array[R/2])
+		swap(&array[L-1], &array[R/2]);  
+	if (array[R/2]>array[R])
+		swap(&array[R/2], &array[R]);
+	swap(&array[R/2], &array[R-1]);
 }
 
 template<typename T>
-void Sorter<T>::intro_sort_run(T* array, T* begin, T* end, int depth_limit){
-	int size = end - begin;
-	int left = begin - array;
-	int right = end - array;
-
-	if(size < 16){
-		insertion_sort(array, begin, end);
+void Sorter<T>::intro_sort_run(T* array, int n, int depth_limit){
+	int i;
+	if (depth_limit<=0)
+	{
+		sort_heap(array,n);
 		return;
 	}
-	if(depth_limit == 0){
-		sort_heap(array, size);
-		return;
-	}
-
-	T* pivot = median_of_three(begin, begin+size/2, end);
-	swap(pivot, end);
-
-	T* p_partition_point = &(array[partition(array,left,right)]);
-	intro_sort_run(array, begin, p_partition_point-1, depth_limit-1);
-	intro_sort_run(array, p_partition_point+1, end, depth_limit-1);
+	i=partition(array,0,n);
+	if(i>9)
+		intro_sort_run(array,i,depth_limit-1);
+	if(n-1-i>9)
+		intro_sort_run(array+i+1,n-1-i,depth_limit-1);
 }
 /*-----------------------------------------------------------------------------------*/
 
@@ -159,21 +145,31 @@ void Sorter<T>::merge_sort(T* array, int i_low, int i_high){
 
 template<typename T>
 void Sorter<T>::quick_sort(T* array, int i_low, int i_high){
-	if(i_low < i_high){
-		int p_i = partition(array, i_low, i_high);
+	if(i_high <= i_low) return;
 
-		quick_sort(array, i_low, p_i - 1);
-		quick_sort(array, p_i + 1, i_high);
+	int i = i_low - 1, j = i_high + 1, 
+	pivot = array[(i_low+i_high)/2];
+
+	while(1){
+		while(pivot>array[++i]);
+		while(pivot<array[--j]);
+
+		if( i <= j)
+			swap(&array[i],&array[j]);
+		else
+			break;
 	}
+
+	if(j > i_low)
+		quick_sort(array, i_low, j);
+	if(i < i_high)
+		quick_sort(array, i, i_high);
 }
 
 template<typename T>
-void Sorter<T>::intro_sort(T* array, int i_low, int i_high){
-	T* begin = &(array[i_low]);
-	T* end = &(array[i_high]);
-
-	int depth_limit = 2*log(end - begin);
-	intro_sort_run(array, begin, end, depth_limit);
+void Sorter<T>::intro_sort(T* array, int n){
+	intro_sort_run(array, n, (int)floor(2*log(n)/M_LN2));
+	insertion_sort(array, n);
 }
 
 template class Sorter<int>;

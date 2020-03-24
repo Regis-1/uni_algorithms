@@ -11,7 +11,7 @@ void Manager<T>::delete_array(T* array){
 }
 
 template<typename T>
-long int Manager<T>::sort_array(T* array, int i_low, int i_high){
+long int Manager<T>::sort_array(T* array, int i_low, int i_high, int a_size){
 	auto t1=std::chrono::high_resolution_clock::now();
 	auto t2=std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
@@ -31,7 +31,7 @@ long int Manager<T>::sort_array(T* array, int i_low, int i_high){
 			return duration;
 		case intro:
 			t1 = std::chrono::high_resolution_clock::now();
-			sorter->intro_sort(array, i_low, i_high);
+			sorter->intro_sort(array, a_size);
 			t2 = std::chrono::high_resolution_clock::now();
 			duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
 			return duration;
