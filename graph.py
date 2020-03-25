@@ -1,13 +1,20 @@
 import matplotlib.pyplot as plt
 import csv
+import sys
 
 x = []
 y = []
 total = 0
 my_label = ""
 header_read = False
+filename = "results.txt"
 
-with open('./results.txt', 'r') as csvfile:
+if len(sys.argv) == 2:
+    filename = sys.argv[1]
+
+path = filename
+
+with open(path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     for row in plots:
         if not header_read:
