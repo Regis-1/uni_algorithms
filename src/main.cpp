@@ -16,7 +16,7 @@ int main(int argc, char* argv[]){
 		std::string path = "./results.txt";
 		std::ofstream file;
 
-		//ARGUMENTS CHECK
+		//SPRAWDZENIE ARGUMENTOW URUCHAMIANIA
 		if(my_size == 0){
 			std::cout<<"Wrong size value!"<<std::endl;
 			return -1;
@@ -49,21 +49,21 @@ int main(int argc, char* argv[]){
 				std::cout<<"Wrong usage of 5th argument!"<<std::endl;
 		}
 
-		//CREATING AN ARRAY
+		//TWORZENIE TABLICY
 		int* my_array = manager->create_array(my_size); 
 
-		//CREATING HEADER IN OUTPUT FILE
+		//TWORZENIE NAGLOWKA W PLIKU WYJSCIOWYM
 		if(will_save){
 			file.open(path);
 			file << my_size << "," << my_ntests << "," << my_sort_percent << "," << my_algorithm << "\n";
 		}
 
-		//MAIN LOOP OF PROGRAM
+		//GLOWNA PETLA PROGRAMU
 		for(int i = 0; i < my_ntests; i++){
-			//RANDOMIZING
+			//LOSOWANIE ELEMENTOW
 			manager->random_array(my_array, my_size);
 
-			//SORTING BEGINNING PART FOR GIVEN PERCENTAGE
+			//POCZATKOWE SORTOWANIE TABLICY, JESLI ZADANE
 			if(my_sort_percent != 0){
 				if(my_sort_percent != -1){
 					int eobs = manager->get_eobs(my_size, my_sort_percent);
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
 				}
 			}
 
-			//SORTING
+			//WLASCIWE LOSOWANIE
 			long int duration = manager->sort_array(my_array, 0, my_size-1, my_size);
 			if(will_print)
 				manager->print_array(my_array, my_size);

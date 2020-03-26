@@ -10,6 +10,7 @@ void Manager<T>::delete_array(T* array){
 	delete[] array;
 }
 
+//FUNKCJA WYBIERAJACA ALGORYTM I SORTUJACA Z JEGO POMOCA PODANA TABLICE
 template<typename T>
 long int Manager<T>::sort_array(T* array, int i_low, int i_high, int a_size){
 	auto t1=std::chrono::high_resolution_clock::now();

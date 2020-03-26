@@ -1,5 +1,6 @@
 #include "../include/Sorter.hh"
 
+//TWORZENIE PARTYCJI DLA QUICKSORT
 template<typename T>
 T Sorter<T>::partition(T* array, int i_low, int i_high){
 	int i, j;
@@ -56,7 +57,6 @@ void Sorter<T>::merge(T* array, int i_low, int i_m, int i_high){
 	} 
 }
 
-//FROM HERE EVERYTHING NEEDED TO INTRO SORT
 template<typename T>
 void Sorter<T>::make_heap(T* array, int n, int i){
 	int largest = i;
@@ -123,7 +123,6 @@ void Sorter<T>::intro_sort_run(T* array, int n, int depth_limit){
 	if(n-1-i>9)
 		intro_sort_run(array+i+1,n-1-i,depth_limit-1);
 }
-/*-----------------------------------------------------------------------------------*/
 
 template<typename T>
 void Sorter<T>::swap(T* a, T* b){
@@ -132,6 +131,7 @@ void Sorter<T>::swap(T* a, T* b){
 	*b = t;
 }
 
+//ALGORYTMY SORTOWANIA
 template<typename T>
 void Sorter<T>::merge_sort(T* array, int i_low, int i_high){
 	if(i_low < i_high){
